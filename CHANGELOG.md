@@ -5,7 +5,7 @@ follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions
 follow [Semantic Versioning](https://semver.org/). This file is generated at
 each release from the Conventional Commits: do not edit it by hand.
 
-## [0.1.0] - unreleased
+## [0.1.0] - 2026-10-18
 
 ### Added
 
@@ -18,3 +18,5 @@ each release from the Conventional Commits: do not edit it by hand.
 - Dashboard widgets: Cameras (online state and last detection of each camera, refresh button), Detections (the last detections with their image) and Recording storage (SD card or disks: used, free, health).
 - Images under the 150 KB Gladys accepts (re-encoded with ffmpeg when needed), refreshed on a timer and on each detection; a refused password paused for ten minutes so the camera does not lock the account.
 - English, French, German and Spanish everywhere: settings, widgets, scenes and documentation.
+
+[0.1.0]: https://github.com/William-De71/gladys-amcrest-dahua/releases/tag/v0.1.0
