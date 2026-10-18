@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="534" viewBox="0 0 800 534">
+  <!-- Cover of the Amcrest / Dahua integration for Gladys Assistant (illustration,
+       no brand logo). Built into cover.jpg by scripts/build-cover.sh. -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f1a2b"/>
+      <stop offset="1" stop-color="#1c3557"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#4da3ff" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="#4da3ff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#d9e1ea"/>
+    </linearGradient>
+    <linearGradient id="dome" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2b3440"/>
+      <stop offset="1" stop-color="#0b0f14"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="534" fill="url(#bg)"/>
+  <g stroke="#223f63" stroke-width="1">
+    <path d="M0 89 H800 M0 178 H800 M0 267 H800 M0 356 H800 M0 445 H800"/>
+    <path d="M100 0 V534 M200 0 V534 M300 0 V534 M400 0 V534 M500 0 V534 M600 0 V534 M700 0 V534"/>
+  </g>
+  <ellipse cx="250" cy="270" rx="270" ry="220" fill="url(#glow)"/>
+
+  <!-- detection cone -->
+  <path d="M300 250 L560 120 L560 420 Z" fill="#4da3ff" opacity="0.10"/>
+  <path d="M300 250 L560 120 M300 250 L560 420" stroke="#4da3ff" stroke-opacity="0.35" stroke-width="2" stroke-dasharray="6 8"/>
+
+  <!-- bullet camera on its bracket -->
+  <rect x="96" y="96" width="40" height="120" rx="8" fill="#c9d3de"/>
+  <path d="M116 200 L170 248" stroke="#c9d3de" stroke-width="22" stroke-linecap="round"/>
+  <g transform="rotate(-12 240 250)">
+    <rect x="150" y="200" width="200" height="100" rx="30" fill="url(#body)"/>
+    <rect x="140" y="188" width="225" height="26" rx="13" fill="#eef2f6"/>
+    <circle cx="322" cy="250" r="38" fill="url(#dome)"/>
+    <circle cx="322" cy="250" r="22" fill="#132235"/>
+    <circle cx="322" cy="250" r="12" fill="#4da3ff" opacity="0.85"/>
+    <circle cx="316" cy="243" r="4" fill="#ffffff" opacity="0.8"/>
+    <g fill="#8a1c1c" opacity="0.9">
+      <circle cx="268" cy="228" r="4"/><circle cx="268" cy="272" r="4"/><circle cx="282" cy="250" r="4"/>
+    </g>
+    <circle cx="186" cy="250" r="6" fill="#38c172"/>
+  </g>
+
+  <!-- detection box -->
+  <g transform="translate(470 182)">
+    <rect width="120" height="170" rx="6" fill="none" stroke="#f5c542" stroke-width="4"/>
+    <circle cx="60" cy="42" r="20" fill="#e6edf5"/>
+    <path d="M30 80 q30 -20 60 0 l10 86 h-80 z" fill="#e6edf5"/>
+    <rect x="0" y="-30" width="96" height="26" rx="5" fill="#f5c542"/>
+    <text x="10" y="-11" font-family="DejaVu Sans, Arial, sans-serif" font-size="16" font-weight="bold" fill="#1f2328">PERSON</text>
+  </g>
+
+  <!-- title -->
+  <g font-family="DejaVu Sans, Arial, sans-serif">
+    <text x="640" y="420" text-anchor="end" font-size="46" font-weight="bold" fill="#ffffff">Amcrest / Dahua</text>
+    <text x="640" y="462" text-anchor="end" font-size="24" fill="#a9c4e4">for Gladys Assistant</text>
+    <text x="640" y="498" text-anchor="end" font-size="17" fill="#7f9cc0">cameras · doorbells · recorders · local network</text>
+  </g>
+</svg>

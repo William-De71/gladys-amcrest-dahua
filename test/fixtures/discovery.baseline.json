@@ -1,0 +1,362 @@
+{
+  "version": "0.1.0",
+  "devices": [
+    {
+      "external_id": "ext:test-integration:camera:CAM1",
+      "should_poll": true,
+      "poll_frequency": 60000,
+      "params": [
+        "CAMERA_URL",
+        "CAMERA_ROTATION",
+        "DAHUA_HOST",
+        "DAHUA_PORT",
+        "DAHUA_SCHEME",
+        "DAHUA_CHANNEL",
+        "DAHUA_SERIAL",
+        "DAHUA_MODEL",
+        "DAHUA_KIND",
+        "DAHUA_CAPABILITIES"
+      ],
+      "features": [
+        {
+          "external_id": "ext:test-integration:camera:CAM1:image",
+          "category": "camera",
+          "type": "image",
+          "min": 0,
+          "max": 0,
+          "read_only": false,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:test-integration:camera:CAM1:motion",
+          "category": "motion-sensor",
+          "type": "binary",
+          "min": 0,
+          "max": 1,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:test-integration:camera:CAM1:person",
+          "category": "motion-sensor",
+          "type": "binary",
+          "min": 0,
+          "max": 1,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:test-integration:camera:CAM1:vehicle",
+          "category": "motion-sensor",
+          "type": "binary",
+          "min": 0,
+          "max": 1,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:test-integration:camera:CAM1:tripwire",
+          "category": "motion-sensor",
+          "type": "binary",
+          "min": 0,
+          "max": 1,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:test-integration:camera:CAM1:intrusion",
+          "category": "motion-sensor",
+          "type": "binary",
+          "min": 0,
+          "max": 1,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:test-integration:camera:CAM1:doorbell",
+          "category": "doorbell",
+          "type": "ring",
+          "min": 0,
+          "max": 1,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:test-integration:camera:CAM1:motion-detection",
+          "category": "switch",
+          "type": "binary",
+          "min": 0,
+          "max": 1,
+          "read_only": false,
+          "has_feedback": true
+        },
+        {
+          "external_id": "ext:test-integration:camera:CAM1:enabled",
+          "category": "camera",
+          "type": "enabled",
+          "min": 0,
+          "max": 1,
+          "read_only": false,
+          "has_feedback": true
+        },
+        {
+          "external_id": "ext:test-integration:camera:CAM1:ptz-move",
+          "category": "camera",
+          "type": "move",
+          "min": 0,
+          "max": 6,
+          "read_only": false,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:test-integration:camera:CAM1:ptz-preset",
+          "category": "camera",
+          "type": "preset",
+          "min": 1,
+          "max": 4,
+          "read_only": false,
+          "has_feedback": false
+        }
+      ]
+    },
+    {
+      "external_id": "ext:test-integration:camera:NVR1-ch3",
+      "should_poll": true,
+      "poll_frequency": 60000,
+      "params": [
+        "CAMERA_URL",
+        "CAMERA_ROTATION",
+        "DAHUA_HOST",
+        "DAHUA_PORT",
+        "DAHUA_SCHEME",
+        "DAHUA_CHANNEL",
+        "DAHUA_SERIAL",
+        "DAHUA_MODEL",
+        "DAHUA_KIND",
+        "DAHUA_CAPABILITIES"
+      ],
+      "features": [
+        {
+          "external_id": "ext:test-integration:camera:NVR1-ch3:image",
+          "category": "camera",
+          "type": "image",
+          "min": 0,
+          "max": 0,
+          "read_only": false,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:test-integration:camera:NVR1-ch3:motion",
+          "category": "motion-sensor",
+          "type": "binary",
+          "min": 0,
+          "max": 1,
+          "read_only": true,
+          "has_feedback": false
+        }
+      ]
+    }
+  ],
+  "manifest": {
+    "config_schema": [
+      {
+        "key": "intro",
+        "type": "section"
+      },
+      {
+        "key": "username",
+        "type": "string"
+      },
+      {
+        "key": "password",
+        "type": "secret"
+      },
+      {
+        "key": "options",
+        "type": "section"
+      },
+      {
+        "key": "image_refresh_interval",
+        "type": "number"
+      },
+      {
+        "key": "snapshot_on_detection",
+        "type": "boolean"
+      },
+      {
+        "key": "stream",
+        "type": "select"
+      },
+      {
+        "key": "advanced",
+        "type": "section"
+      },
+      {
+        "key": "camera_addresses",
+        "type": "string"
+      },
+      {
+        "key": "camera_accounts",
+        "type": "secret"
+      }
+    ],
+    "actions": ["test_connection", "refresh_images"],
+    "scene_triggers": [
+      {
+        "key": "detection",
+        "fields": [
+          {
+            "key": "camera",
+            "options": []
+          },
+          {
+            "key": "kind",
+            "options": [
+              "motion",
+              "person",
+              "vehicle",
+              "tripwire",
+              "intrusion",
+              "audio",
+              "tamper",
+              "doorbell"
+            ]
+          }
+        ],
+        "variables": [
+          {
+            "key": "camera_name",
+            "type": "string"
+          },
+          {
+            "key": "kind",
+            "type": "string"
+          },
+          {
+            "key": "rule",
+            "type": "string"
+          },
+          {
+            "key": "object_type",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "key": "alarm",
+        "fields": [
+          {
+            "key": "camera",
+            "options": []
+          },
+          {
+            "key": "kind",
+            "options": [
+              "video_loss",
+              "alarm_input",
+              "storage_failure",
+              "storage_low_space",
+              "no_storage"
+            ]
+          }
+        ],
+        "variables": [
+          {
+            "key": "camera_name",
+            "type": "string"
+          },
+          {
+            "key": "kind",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "key": "connection_lost",
+        "fields": [
+          {
+            "key": "camera",
+            "options": []
+          }
+        ],
+        "variables": [
+          {
+            "key": "camera_name",
+            "type": "string"
+          },
+          {
+            "key": "reason",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "key": "connection_restored",
+        "fields": [
+          {
+            "key": "camera",
+            "options": []
+          }
+        ],
+        "variables": [
+          {
+            "key": "camera_name",
+            "type": "string"
+          }
+        ]
+      }
+    ],
+    "scene_actions": [
+      {
+        "key": "take_snapshot",
+        "fields": ["camera"],
+        "options": {},
+        "outputs": [
+          {
+            "key": "captured_at",
+            "type": "string"
+          },
+          {
+            "key": "size_kb",
+            "type": "number"
+          }
+        ]
+      },
+      {
+        "key": "set_recording",
+        "fields": ["camera", "mode"],
+        "options": {
+          "mode": ["auto", "manual", "off"]
+        },
+        "outputs": []
+      },
+      {
+        "key": "open_door",
+        "fields": ["camera", "door"],
+        "options": {},
+        "outputs": []
+      },
+      {
+        "key": "reboot",
+        "fields": ["camera"],
+        "options": {},
+        "outputs": []
+      }
+    ],
+    "widgets": [
+      {
+        "key": "cameras",
+        "settings": []
+      },
+      {
+        "key": "detections",
+        "settings": ["camera", "count"]
+      },
+      {
+        "key": "storage",
+        "settings": ["camera"]
+      }
+    ],
+    "widget_actions": ["refresh_images"]
+  }
+}

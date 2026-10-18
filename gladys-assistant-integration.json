@@ -1,0 +1,889 @@
+{
+  "manifest_version": 1,
+  "type": "device",
+  "name": "Amcrest / Dahua",
+  "description": {
+    "en": "Amcrest and Dahua cameras, doorbells and NVRs: images, instant detections, PTZ.",
+    "fr": "Caméras, sonnettes et NVR Amcrest et Dahua : images, détections instantanées, PTZ.",
+    "de": "Amcrest- und Dahua-Kameras, Türklingeln und NVR: Bilder, sofortige Erkennungen, PTZ.",
+    "es": "Cámaras, timbres y NVR Amcrest y Dahua: imágenes, detecciones al instante, PTZ."
+  },
+  "version": "0.1.0",
+  "docker_image": "ghcr.io/william-de71/gladys-amcrest-dahua:0.1.0",
+  "gladys_version": ">=5.1.0",
+  "cover_image": "https://raw.githubusercontent.com/William-De71/gladys-amcrest-dahua/main/cover.jpg",
+  "categories": ["security"],
+  "transports": ["local"],
+  "network_discovery": [
+    {
+      "type": "udp-active-broadcast",
+      "ports": [37810]
+    }
+  ],
+  "config_schema": [
+    {
+      "key": "intro",
+      "type": "section",
+      "label": {
+        "en": "Getting started",
+        "fr": "Pour commencer",
+        "de": "Erste Schritte",
+        "es": "Primeros pasos"
+      },
+      "description": {
+        "en": "For the cameras, doorbells and recorders (NVR, DVR) built on Dahua firmware: Dahua, Amcrest, Lorex, Imou, EmpireTech and many rebranded models. Everything stays on your network, no cloud account.\n\nEnter the account you use in the web interface of your cameras, save, then open the Discover tab and run a scan: the devices of your network answer by themselves. Each camera (each channel of a recorder) becomes one device.",
+        "fr": "Pour les caméras, sonnettes et enregistreurs (NVR, DVR) basés sur un firmware Dahua : Dahua, Amcrest, Lorex, Imou, EmpireTech et de nombreux modèles renommés. Tout reste sur votre réseau, sans compte cloud.\n\nSaisissez le compte que vous utilisez dans l’interface web de vos caméras, enregistrez, puis ouvrez l’onglet Découverte et lancez un scan : les appareils de votre réseau répondent d’eux-mêmes. Chaque caméra (chaque canal d’un enregistreur) devient un appareil.",
+        "de": "Für Kameras, Türklingeln und Rekorder (NVR, DVR) mit Dahua-Firmware: Dahua, Amcrest, Lorex, Imou, EmpireTech und viele umbenannte Modelle. Alles bleibt in Ihrem Netzwerk, kein Cloud-Konto.\n\nGeben Sie das Konto ein, mit dem Sie sich an der Weboberfläche Ihrer Kameras anmelden, speichern Sie und starten Sie dann im Reiter „Entdecken“ eine Suche: Die Geräte Ihres Netzwerks antworten von selbst. Jede Kamera (jeder Kanal eines Rekorders) wird ein Gerät.",
+        "es": "Para las cámaras, timbres y grabadores (NVR, DVR) con firmware Dahua: Dahua, Amcrest, Lorex, Imou, EmpireTech y muchos modelos con otra marca. Todo se queda en su red, sin cuenta en la nube.\n\nIntroduzca la cuenta que usa en la interfaz web de sus cámaras, guarde y luego abra la pestaña Descubrir y lance una búsqueda: los dispositivos de su red responden por sí mismos. Cada cámara (cada canal de un grabador) se convierte en un dispositivo."
+      }
+    },
+    {
+      "key": "username",
+      "type": "string",
+      "label": {
+        "en": "Username",
+        "fr": "Identifiant",
+        "de": "Benutzername",
+        "es": "Usuario"
+      },
+      "description": {
+        "en": "`admin` on most installations. A user with fewer rights works if it may read the settings; the switches and the PTZ need control rights.",
+        "fr": "`admin` dans la plupart des installations. Un utilisateur avec moins de droits fonctionne s’il peut lire les paramètres ; les interrupteurs et le PTZ demandent les droits de contrôle.",
+        "de": "Bei den meisten Installationen `admin`. Ein Benutzer mit weniger Rechten funktioniert, wenn er die Einstellungen lesen darf; Schalter und PTZ brauchen Steuerrechte.",
+        "es": "`admin` en la mayoría de las instalaciones. Un usuario con menos permisos funciona si puede leer los ajustes; los interruptores y el PTZ necesitan permisos de control."
+      },
+      "placeholder": {
+        "en": "admin",
+        "fr": "admin",
+        "de": "admin",
+        "es": "admin"
+      },
+      "required": true,
+      "default": "admin"
+    },
+    {
+      "key": "password",
+      "type": "secret",
+      "label": {
+        "en": "Password",
+        "fr": "Mot de passe",
+        "de": "Passwort",
+        "es": "Contraseña"
+      },
+      "description": {
+        "en": "Careful: a camera locks the account for 30 minutes after five wrong passwords. After a refusal, the integration waits ten minutes before trying again (except with \"Test the connection\").",
+        "fr": "Attention : une caméra bloque le compte pendant 30 minutes après cinq mots de passe erronés. Après un refus, l’intégration attend dix minutes avant de réessayer (sauf avec « Tester la connexion »).",
+        "de": "Achtung: Eine Kamera sperrt das Konto nach fünf falschen Passwörtern für 30 Minuten. Nach einer Ablehnung wartet die Integration zehn Minuten, bevor sie es erneut versucht (außer mit „Verbindung testen“).",
+        "es": "Atención: una cámara bloquea la cuenta durante 30 minutos tras cinco contraseñas erróneas. Tras un rechazo, la integración espera diez minutos antes de reintentar (salvo con «Probar la conexión»)."
+      },
+      "required": true
+    },
+    {
+      "key": "options",
+      "type": "section",
+      "label": {
+        "en": "Images and detections",
+        "fr": "Images et détections",
+        "de": "Bilder und Erkennungen",
+        "es": "Imágenes y detecciones"
+      },
+      "description": {
+        "en": "Detections arrive instantly through the event stream of each camera. Person and vehicle detection need a camera with smart motion detection (SMD) or IVS rules, switched on in its web interface.",
+        "fr": "Les détections arrivent instantanément par le flux d’événements de chaque caméra. La détection de personnes et de véhicules demande une caméra avec détection de mouvement intelligente (SMD) ou des règles IVS, activées dans son interface web.",
+        "de": "Erkennungen kommen sofort über den Ereignisstrom jeder Kamera. Personen- und Fahrzeugerkennung erfordern eine Kamera mit intelligenter Bewegungserkennung (SMD) oder IVS-Regeln, aktiviert in ihrer Weboberfläche.",
+        "es": "Las detecciones llegan al instante por el flujo de eventos de cada cámara. La detección de personas y vehículos requiere una cámara con detección de movimiento inteligente (SMD) o reglas IVS, activadas en su interfaz web."
+      }
+    },
+    {
+      "key": "image_refresh_interval",
+      "type": "number",
+      "label": {
+        "en": "Image refresh (seconds)",
+        "fr": "Rafraîchissement des images (secondes)",
+        "de": "Bildaktualisierung (Sekunden)",
+        "es": "Actualización de imágenes (segundos)"
+      },
+      "description": {
+        "en": "How often a new image is published for the dashboard, 10 to 3600. 0 turns it off: images are then taken only on request and on detections.",
+        "fr": "Fréquence de publication d’une nouvelle image pour le tableau de bord, de 10 à 3600. 0 la désactive : les images ne sont alors prises qu’à la demande et lors des détections.",
+        "de": "Wie oft ein neues Bild für das Dashboard veröffentlicht wird, 10 bis 3600. 0 schaltet es ab: Bilder werden dann nur auf Anfrage und bei Erkennungen aufgenommen.",
+        "es": "Frecuencia con la que se publica una nueva imagen para el panel, de 10 a 3600. 0 la desactiva: las imágenes solo se toman a petición y en las detecciones."
+      },
+      "required": false,
+      "default": 60,
+      "min": 0,
+      "max": 3600
+    },
+    {
+      "key": "snapshot_on_detection",
+      "type": "boolean",
+      "label": {
+        "en": "Image on each detection",
+        "fr": "Image à chaque détection",
+        "de": "Bild bei jeder Erkennung",
+        "es": "Imagen en cada detección"
+      },
+      "description": {
+        "en": "Takes an image when a motion, a person, a vehicle or a doorbell press starts: the dashboard, the \"send camera image\" scene action and the Detections widget then show that moment.",
+        "fr": "Prend une image au début d’un mouvement, d’une personne, d’un véhicule ou d’un appui sur la sonnette : le tableau de bord, l’action de scène « envoyer l’image de la caméra » et le widget Détections montrent alors ce moment.",
+        "de": "Nimmt ein Bild auf, wenn eine Bewegung, eine Person, ein Fahrzeug oder ein Klingeln beginnt: Das Dashboard, die Szenenaktion „Kamerabild senden“ und das Widget „Erkennungen“ zeigen dann diesen Moment.",
+        "es": "Toma una imagen cuando empieza un movimiento, una persona, un vehículo o una pulsación del timbre: el panel, la acción de escena «enviar la imagen de la cámara» y el widget Detecciones muestran ese momento."
+      },
+      "required": false,
+      "default": true
+    },
+    {
+      "key": "stream",
+      "type": "select",
+      "label": {
+        "en": "Live view stream",
+        "fr": "Flux de la vidéo en direct",
+        "de": "Stream der Live-Ansicht",
+        "es": "Flujo del vídeo en directo"
+      },
+      "description": {
+        "en": "The main stream is the full resolution; the sub stream is lighter, better on a slow network or a Raspberry Pi. Run a scan again after a change.",
+        "fr": "Le flux principal est en pleine résolution ; le flux secondaire est plus léger, préférable sur un réseau lent ou un Raspberry Pi. Relancez un scan après un changement.",
+        "de": "Der Hauptstream hat die volle Auflösung; der Substream ist leichter, besser bei langsamem Netzwerk oder auf einem Raspberry Pi. Starten Sie nach einer Änderung erneut eine Suche.",
+        "es": "El flujo principal es la resolución completa; el secundario es más ligero, mejor en una red lenta o en una Raspberry Pi. Vuelva a lanzar una búsqueda tras un cambio."
+      },
+      "required": false,
+      "default": "main",
+      "options": [
+        {
+          "value": "main",
+          "label": {
+            "en": "Main stream (full resolution)",
+            "fr": "Flux principal (pleine résolution)",
+            "de": "Hauptstream (volle Auflösung)",
+            "es": "Flujo principal (resolución completa)"
+          }
+        },
+        {
+          "value": "sub",
+          "label": {
+            "en": "Sub stream (lighter)",
+            "fr": "Flux secondaire (plus léger)",
+            "de": "Substream (leichter)",
+            "es": "Flujo secundario (más ligero)"
+          }
+        }
+      ]
+    },
+    {
+      "key": "advanced",
+      "type": "section",
+      "label": {
+        "en": "Advanced",
+        "fr": "Avancé",
+        "de": "Erweitert",
+        "es": "Avanzado"
+      },
+      "description": {
+        "en": "Fill these fields only for a device the scan does not find (another VLAN, discovery blocked) or one with another account.",
+        "fr": "Ne remplissez ces champs que pour un appareil que le scan ne trouve pas (autre VLAN, découverte bloquée) ou qui a un autre compte.",
+        "de": "Füllen Sie diese Felder nur für ein Gerät aus, das die Suche nicht findet (anderes VLAN, Erkennung blockiert), oder das ein anderes Konto hat.",
+        "es": "Rellene estos campos solo para un dispositivo que la búsqueda no encuentra (otra VLAN, descubrimiento bloqueado) o que tiene otra cuenta."
+      }
+    },
+    {
+      "key": "camera_addresses",
+      "type": "string",
+      "label": {
+        "en": "Device addresses",
+        "fr": "Adresses des appareils",
+        "de": "Geräteadressen",
+        "es": "Direcciones de los dispositivos"
+      },
+      "description": {
+        "en": "Separated by commas. Add `:port` for another HTTP port, `https://` for HTTPS, e.g. `192.168.1.108, 192.168.1.20:8080, https://192.168.1.30`.",
+        "fr": "Séparées par des virgules. Ajoutez `:port` pour un autre port HTTP, `https://` pour HTTPS, par exemple `192.168.1.108, 192.168.1.20:8080, https://192.168.1.30`.",
+        "de": "Durch Kommas getrennt. Fügen Sie `:port` für einen anderen HTTP-Port hinzu, `https://` für HTTPS, z. B. `192.168.1.108, 192.168.1.20:8080, https://192.168.1.30`.",
+        "es": "Separadas por comas. Añada `:puerto` para otro puerto HTTP, `https://` para HTTPS, por ejemplo `192.168.1.108, 192.168.1.20:8080, https://192.168.1.30`."
+      },
+      "placeholder": {
+        "en": "192.168.1.108, 192.168.1.109",
+        "fr": "192.168.1.108, 192.168.1.109",
+        "de": "192.168.1.108, 192.168.1.109",
+        "es": "192.168.1.108, 192.168.1.109"
+      },
+      "required": false
+    },
+    {
+      "key": "camera_accounts",
+      "type": "secret",
+      "label": {
+        "en": "Accounts per device",
+        "fr": "Comptes par appareil",
+        "de": "Konten pro Gerät",
+        "es": "Cuentas por dispositivo"
+      },
+      "description": {
+        "en": "Only for a device with another account than the one above. Separated by commas, each as `address|username|password`, e.g. `192.168.1.42|gladys|MyPassword`.",
+        "fr": "Uniquement pour un appareil avec un autre compte que celui ci-dessus. Séparés par des virgules, chacun sous la forme `adresse|identifiant|motdepasse`, par exemple `192.168.1.42|gladys|MonMotDePasse`.",
+        "de": "Nur für ein Gerät mit einem anderen Konto als dem obigen. Durch Kommas getrennt, jeweils als `adresse|benutzer|passwort`, z. B. `192.168.1.42|gladys|MeinPasswort`.",
+        "es": "Solo para un dispositivo con otra cuenta distinta de la anterior. Separadas por comas, cada una como `dirección|usuario|contraseña`, por ejemplo `192.168.1.42|gladys|MiContraseña`."
+      },
+      "placeholder": {
+        "en": "192.168.1.42|gladys|MyPassword",
+        "fr": "192.168.1.42|gladys|MonMotDePasse",
+        "de": "192.168.1.42|gladys|MeinPasswort",
+        "es": "192.168.1.42|gladys|MiContraseña"
+      },
+      "required": false
+    }
+  ],
+  "actions": [
+    {
+      "key": "test_connection",
+      "label": {
+        "en": "Test the connection",
+        "fr": "Tester la connexion",
+        "de": "Verbindung testen",
+        "es": "Probar la conexión"
+      },
+      "description": {
+        "en": "Searches the network and the addresses above, and tells for each device its model, its cameras and what they can do — or why it cannot be reached.",
+        "fr": "Cherche sur le réseau et aux adresses ci-dessus, et indique pour chaque appareil son modèle, ses caméras et ce qu’elles savent faire — ou pourquoi il est injoignable.",
+        "de": "Sucht im Netzwerk und unter den obigen Adressen und zeigt für jedes Gerät das Modell, seine Kameras und was sie können — oder warum es nicht erreichbar ist.",
+        "es": "Busca en la red y en las direcciones anteriores, e indica para cada dispositivo su modelo, sus cámaras y lo que saben hacer — o por qué no se puede alcanzar."
+      },
+      "timeout_seconds": 90
+    },
+    {
+      "key": "refresh_images",
+      "label": {
+        "en": "Refresh the images",
+        "fr": "Rafraîchir les images",
+        "de": "Bilder aktualisieren",
+        "es": "Actualizar las imágenes"
+      },
+      "description": {
+        "en": "Takes a new image of every camera now.",
+        "fr": "Prend tout de suite une nouvelle image de chaque caméra.",
+        "de": "Nimmt sofort ein neues Bild jeder Kamera auf.",
+        "es": "Toma ahora una nueva imagen de cada cámara."
+      },
+      "timeout_seconds": 120
+    }
+  ],
+  "scene_triggers": [
+    {
+      "key": "detection",
+      "label": {
+        "en": "Amcrest / Dahua: detection",
+        "fr": "Amcrest / Dahua : détection",
+        "de": "Amcrest / Dahua: Erkennung",
+        "es": "Amcrest / Dahua: detección"
+      },
+      "description": {
+        "en": "A camera detects something: motion, a person, a vehicle, a crossed line, an intrusion, a sound, tampering, or the doorbell is pressed.",
+        "fr": "Une caméra détecte quelque chose : mouvement, personne, véhicule, ligne franchie, intrusion, son, sabotage, ou la sonnette est pressée.",
+        "de": "Eine Kamera erkennt etwas: Bewegung, eine Person, ein Fahrzeug, eine überquerte Linie, ein Eindringen, ein Geräusch, Sabotage, oder es klingelt.",
+        "es": "Una cámara detecta algo: movimiento, una persona, un vehículo, una línea cruzada, una intrusión, un sonido, sabotaje, o se pulsa el timbre."
+      },
+      "fields": [
+        {
+          "key": "camera",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Camera",
+            "fr": "Caméra",
+            "de": "Kamera",
+            "es": "Cámara"
+          },
+          "description": {
+            "en": "Empty: any camera.",
+            "fr": "Vide : n’importe quelle caméra.",
+            "de": "Leer: jede Kamera.",
+            "es": "Vacío: cualquier cámara."
+          },
+          "required": false
+        },
+        {
+          "key": "kind",
+          "type": "multi_select",
+          "label": {
+            "en": "Detections",
+            "fr": "Détections",
+            "de": "Erkennungen",
+            "es": "Detecciones"
+          },
+          "description": {
+            "en": "Empty: every kind.",
+            "fr": "Vide : tous les types.",
+            "de": "Leer: alle Arten.",
+            "es": "Vacío: todos los tipos."
+          },
+          "required": false,
+          "options": [
+            {
+              "value": "motion",
+              "label": { "en": "Motion", "fr": "Mouvement", "de": "Bewegung", "es": "Movimiento" }
+            },
+            {
+              "value": "person",
+              "label": { "en": "Person", "fr": "Personne", "de": "Person", "es": "Persona" }
+            },
+            {
+              "value": "vehicle",
+              "label": { "en": "Vehicle", "fr": "Véhicule", "de": "Fahrzeug", "es": "Vehículo" }
+            },
+            {
+              "value": "tripwire",
+              "label": {
+                "en": "Line crossed (IVS)",
+                "fr": "Ligne franchie (IVS)",
+                "de": "Linie überquert (IVS)",
+                "es": "Línea cruzada (IVS)"
+              }
+            },
+            {
+              "value": "intrusion",
+              "label": {
+                "en": "Intrusion (IVS)",
+                "fr": "Intrusion (IVS)",
+                "de": "Eindringen (IVS)",
+                "es": "Intrusión (IVS)"
+              }
+            },
+            {
+              "value": "audio",
+              "label": { "en": "Sound", "fr": "Son", "de": "Geräusch", "es": "Sonido" }
+            },
+            {
+              "value": "tamper",
+              "label": {
+                "en": "Tampering (lens covered)",
+                "fr": "Sabotage (objectif masqué)",
+                "de": "Sabotage (Objektiv verdeckt)",
+                "es": "Sabotaje (objetivo tapado)"
+              }
+            },
+            {
+              "value": "doorbell",
+              "label": {
+                "en": "Doorbell pressed",
+                "fr": "Sonnette pressée",
+                "de": "Türklingel gedrückt",
+                "es": "Timbre pulsado"
+              }
+            }
+          ]
+        }
+      ],
+      "variables": [
+        {
+          "key": "camera_name",
+          "type": "string",
+          "label": {
+            "en": "Camera name",
+            "fr": "Nom de la caméra",
+            "de": "Name der Kamera",
+            "es": "Nombre de la cámara"
+          }
+        },
+        {
+          "key": "kind",
+          "type": "string",
+          "label": {
+            "en": "Detection (motion, person…)",
+            "fr": "Détection (motion, person…)",
+            "de": "Erkennung (motion, person…)",
+            "es": "Detección (motion, person…)"
+          }
+        },
+        {
+          "key": "rule",
+          "type": "string",
+          "label": {
+            "en": "IVS rule name",
+            "fr": "Nom de la règle IVS",
+            "de": "Name der IVS-Regel",
+            "es": "Nombre de la regla IVS"
+          }
+        },
+        {
+          "key": "object_type",
+          "type": "string",
+          "label": {
+            "en": "Object type (IVS: Human, Vehicle…)",
+            "fr": "Type d’objet (IVS : Human, Vehicle…)",
+            "de": "Objekttyp (IVS: Human, Vehicle…)",
+            "es": "Tipo de objeto (IVS: Human, Vehicle…)"
+          }
+        }
+      ]
+    },
+    {
+      "key": "alarm",
+      "label": {
+        "en": "Amcrest / Dahua: alarm",
+        "fr": "Amcrest / Dahua : alarme",
+        "de": "Amcrest / Dahua: Alarm",
+        "es": "Amcrest / Dahua: alarma"
+      },
+      "description": {
+        "en": "A device reports a problem: video lost, alarm input triggered, storage failure, storage full or missing.",
+        "fr": "Un appareil signale un problème : vidéo perdue, entrée d’alarme déclenchée, panne de stockage, stockage plein ou absent.",
+        "de": "Ein Gerät meldet ein Problem: Video verloren, Alarmeingang ausgelöst, Speicherfehler, Speicher voll oder fehlend.",
+        "es": "Un dispositivo informa de un problema: vídeo perdido, entrada de alarma activada, fallo de almacenamiento, almacenamiento lleno o ausente."
+      },
+      "fields": [
+        {
+          "key": "camera",
+          "type": "select",
+          "source": "devices",
+          "label": { "en": "Camera", "fr": "Caméra", "de": "Kamera", "es": "Cámara" },
+          "description": {
+            "en": "Empty: any camera. Storage alarms come from the first camera of a recorder.",
+            "fr": "Vide : n’importe quelle caméra. Les alarmes de stockage viennent de la première caméra d’un enregistreur.",
+            "de": "Leer: jede Kamera. Speicheralarme kommen von der ersten Kamera eines Rekorders.",
+            "es": "Vacío: cualquier cámara. Las alarmas de almacenamiento vienen de la primera cámara de un grabador."
+          },
+          "required": false
+        },
+        {
+          "key": "kind",
+          "type": "multi_select",
+          "label": { "en": "Alarms", "fr": "Alarmes", "de": "Alarme", "es": "Alarmas" },
+          "description": {
+            "en": "Empty: every alarm.",
+            "fr": "Vide : toutes les alarmes.",
+            "de": "Leer: alle Alarme.",
+            "es": "Vacío: todas las alarmas."
+          },
+          "required": false,
+          "options": [
+            {
+              "value": "video_loss",
+              "label": {
+                "en": "Video lost",
+                "fr": "Vidéo perdue",
+                "de": "Video verloren",
+                "es": "Vídeo perdido"
+              }
+            },
+            {
+              "value": "alarm_input",
+              "label": {
+                "en": "Alarm input",
+                "fr": "Entrée d’alarme",
+                "de": "Alarmeingang",
+                "es": "Entrada de alarma"
+              }
+            },
+            {
+              "value": "storage_failure",
+              "label": {
+                "en": "Storage failure",
+                "fr": "Panne de stockage",
+                "de": "Speicherfehler",
+                "es": "Fallo de almacenamiento"
+              }
+            },
+            {
+              "value": "storage_low_space",
+              "label": {
+                "en": "Storage almost full",
+                "fr": "Stockage presque plein",
+                "de": "Speicher fast voll",
+                "es": "Almacenamiento casi lleno"
+              }
+            },
+            {
+              "value": "no_storage",
+              "label": {
+                "en": "No storage",
+                "fr": "Aucun stockage",
+                "de": "Kein Speicher",
+                "es": "Sin almacenamiento"
+              }
+            }
+          ]
+        }
+      ],
+      "variables": [
+        {
+          "key": "camera_name",
+          "type": "string",
+          "label": {
+            "en": "Camera name",
+            "fr": "Nom de la caméra",
+            "de": "Name der Kamera",
+            "es": "Nombre de la cámara"
+          }
+        },
+        {
+          "key": "kind",
+          "type": "string",
+          "label": {
+            "en": "Alarm (video_loss, storage_failure…)",
+            "fr": "Alarme (video_loss, storage_failure…)",
+            "de": "Alarm (video_loss, storage_failure…)",
+            "es": "Alarma (video_loss, storage_failure…)"
+          }
+        }
+      ]
+    },
+    {
+      "key": "connection_lost",
+      "label": {
+        "en": "Amcrest / Dahua: camera unreachable",
+        "fr": "Amcrest / Dahua : caméra injoignable",
+        "de": "Amcrest / Dahua: Kamera nicht erreichbar",
+        "es": "Amcrest / Dahua: cámara inaccesible"
+      },
+      "description": {
+        "en": "A camera stopped answering (power cut, network, cable cut).",
+        "fr": "Une caméra ne répond plus (coupure de courant, réseau, câble coupé).",
+        "de": "Eine Kamera antwortet nicht mehr (Stromausfall, Netzwerk, Kabel durchtrennt).",
+        "es": "Una cámara ha dejado de responder (corte de corriente, red, cable cortado)."
+      },
+      "fields": [
+        {
+          "key": "camera",
+          "type": "select",
+          "source": "devices",
+          "label": { "en": "Camera", "fr": "Caméra", "de": "Kamera", "es": "Cámara" },
+          "description": {
+            "en": "Empty: any camera.",
+            "fr": "Vide : n’importe quelle caméra.",
+            "de": "Leer: jede Kamera.",
+            "es": "Vacío: cualquier cámara."
+          },
+          "required": false
+        }
+      ],
+      "variables": [
+        {
+          "key": "camera_name",
+          "type": "string",
+          "label": {
+            "en": "Camera name",
+            "fr": "Nom de la caméra",
+            "de": "Name der Kamera",
+            "es": "Nombre de la cámara"
+          }
+        },
+        {
+          "key": "reason",
+          "type": "string",
+          "label": { "en": "Reason", "fr": "Raison", "de": "Grund", "es": "Motivo" }
+        }
+      ]
+    },
+    {
+      "key": "connection_restored",
+      "label": {
+        "en": "Amcrest / Dahua: camera back",
+        "fr": "Amcrest / Dahua : caméra revenue",
+        "de": "Amcrest / Dahua: Kamera wieder da",
+        "es": "Amcrest / Dahua: cámara recuperada"
+      },
+      "description": {
+        "en": "A camera that was unreachable answers again.",
+        "fr": "Une caméra injoignable répond de nouveau.",
+        "de": "Eine nicht erreichbare Kamera antwortet wieder.",
+        "es": "Una cámara inaccesible vuelve a responder."
+      },
+      "fields": [
+        {
+          "key": "camera",
+          "type": "select",
+          "source": "devices",
+          "label": { "en": "Camera", "fr": "Caméra", "de": "Kamera", "es": "Cámara" },
+          "description": {
+            "en": "Empty: any camera.",
+            "fr": "Vide : n’importe quelle caméra.",
+            "de": "Leer: jede Kamera.",
+            "es": "Vacío: cualquier cámara."
+          },
+          "required": false
+        }
+      ],
+      "variables": [
+        {
+          "key": "camera_name",
+          "type": "string",
+          "label": {
+            "en": "Camera name",
+            "fr": "Nom de la caméra",
+            "de": "Name der Kamera",
+            "es": "Nombre de la cámara"
+          }
+        }
+      ]
+    }
+  ],
+  "scene_actions": [
+    {
+      "key": "take_snapshot",
+      "label": {
+        "en": "Amcrest / Dahua: take an image",
+        "fr": "Amcrest / Dahua : prendre une image",
+        "de": "Amcrest / Dahua: Bild aufnehmen",
+        "es": "Amcrest / Dahua: tomar una imagen"
+      },
+      "description": {
+        "en": "A fresh image of the camera, ready for the \"send camera image\" action that follows.",
+        "fr": "Une image fraîche de la caméra, prête pour l’action « envoyer l’image de la caméra » qui suit.",
+        "de": "Ein frisches Bild der Kamera, bereit für die folgende Aktion „Kamerabild senden“.",
+        "es": "Una imagen reciente de la cámara, lista para la acción «enviar la imagen de la cámara» que sigue."
+      },
+      "timeout_seconds": 30,
+      "fields": [
+        {
+          "key": "camera",
+          "type": "select",
+          "source": "devices",
+          "label": { "en": "Camera", "fr": "Caméra", "de": "Kamera", "es": "Cámara" },
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "key": "captured_at",
+          "type": "string",
+          "label": {
+            "en": "Taken at (ISO date)",
+            "fr": "Prise à (date ISO)",
+            "de": "Aufgenommen um (ISO-Datum)",
+            "es": "Tomada a las (fecha ISO)"
+          }
+        },
+        {
+          "key": "size_kb",
+          "type": "number",
+          "label": {
+            "en": "Size (KB)",
+            "fr": "Taille (Ko)",
+            "de": "Größe (KB)",
+            "es": "Tamaño (KB)"
+          }
+        }
+      ]
+    },
+    {
+      "key": "set_recording",
+      "label": {
+        "en": "Amcrest / Dahua: recording mode",
+        "fr": "Amcrest / Dahua : mode d’enregistrement",
+        "de": "Amcrest / Dahua: Aufnahmemodus",
+        "es": "Amcrest / Dahua: modo de grabación"
+      },
+      "description": {
+        "en": "Records always (when you leave), follows the camera schedule, or stops recording (when you are home).",
+        "fr": "Enregistre en continu (quand vous partez), suit le planning de la caméra, ou arrête d’enregistrer (quand vous êtes là).",
+        "de": "Nimmt immer auf (wenn Sie gehen), folgt dem Zeitplan der Kamera oder stoppt die Aufnahme (wenn Sie zu Hause sind).",
+        "es": "Graba siempre (cuando se va), sigue el horario de la cámara o deja de grabar (cuando está en casa)."
+      },
+      "timeout_seconds": 20,
+      "fields": [
+        {
+          "key": "camera",
+          "type": "select",
+          "source": "devices",
+          "label": { "en": "Camera", "fr": "Caméra", "de": "Kamera", "es": "Cámara" },
+          "required": true
+        },
+        {
+          "key": "mode",
+          "type": "select",
+          "label": { "en": "Mode", "fr": "Mode", "de": "Modus", "es": "Modo" },
+          "required": true,
+          "default": "auto",
+          "options": [
+            {
+              "value": "auto",
+              "label": {
+                "en": "Camera schedule",
+                "fr": "Planning de la caméra",
+                "de": "Zeitplan der Kamera",
+                "es": "Horario de la cámara"
+              }
+            },
+            {
+              "value": "manual",
+              "label": {
+                "en": "Always record",
+                "fr": "Toujours enregistrer",
+                "de": "Immer aufnehmen",
+                "es": "Grabar siempre"
+              }
+            },
+            {
+              "value": "off",
+              "label": {
+                "en": "Do not record",
+                "fr": "Ne pas enregistrer",
+                "de": "Nicht aufnehmen",
+                "es": "No grabar"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "open_door",
+      "label": {
+        "en": "Amcrest / Dahua: open the door",
+        "fr": "Amcrest / Dahua : ouvrir la porte",
+        "de": "Amcrest / Dahua: Tür öffnen",
+        "es": "Amcrest / Dahua: abrir la puerta"
+      },
+      "description": {
+        "en": "Opens the lock wired to a Dahua door station (VTO).",
+        "fr": "Ouvre la gâche reliée à une platine de rue Dahua (VTO).",
+        "de": "Öffnet das Schloss an einer Dahua-Türstation (VTO).",
+        "es": "Abre la cerradura conectada a un videoportero Dahua (VTO)."
+      },
+      "timeout_seconds": 15,
+      "fields": [
+        {
+          "key": "camera",
+          "type": "select",
+          "source": "devices",
+          "label": { "en": "Doorbell", "fr": "Sonnette", "de": "Türklingel", "es": "Timbre" },
+          "required": true
+        },
+        {
+          "key": "door",
+          "type": "number",
+          "label": {
+            "en": "Door number",
+            "fr": "Numéro de porte",
+            "de": "Türnummer",
+            "es": "Número de puerta"
+          },
+          "required": false,
+          "default": 1,
+          "min": 1,
+          "max": 4
+        }
+      ]
+    },
+    {
+      "key": "reboot",
+      "label": {
+        "en": "Amcrest / Dahua: reboot",
+        "fr": "Amcrest / Dahua : redémarrer",
+        "de": "Amcrest / Dahua: neu starten",
+        "es": "Amcrest / Dahua: reiniciar"
+      },
+      "description": {
+        "en": "Reboots the camera (the whole recorder for a recorder channel).",
+        "fr": "Redémarre la caméra (tout l’enregistreur pour un canal d’enregistreur).",
+        "de": "Startet die Kamera neu (bei einem Rekorderkanal den ganzen Rekorder).",
+        "es": "Reinicia la cámara (todo el grabador para un canal de grabador)."
+      },
+      "timeout_seconds": 20,
+      "fields": [
+        {
+          "key": "camera",
+          "type": "select",
+          "source": "devices",
+          "label": { "en": "Camera", "fr": "Caméra", "de": "Kamera", "es": "Cámara" },
+          "required": true
+        }
+      ]
+    }
+  ],
+  "widgets": [
+    {
+      "key": "cameras",
+      "label": {
+        "en": "Cameras",
+        "fr": "Caméras",
+        "de": "Kameras",
+        "es": "Cámaras"
+      },
+      "description": {
+        "en": "Every camera at a glance: online or not, last detection.",
+        "fr": "Toutes les caméras d’un coup d’œil : en ligne ou non, dernière détection.",
+        "de": "Alle Kameras auf einen Blick: online oder nicht, letzte Erkennung.",
+        "es": "Todas las cámaras de un vistazo: en línea o no, última detección."
+      },
+      "icon": "video",
+      "action_timeout_seconds": 60
+    },
+    {
+      "key": "detections",
+      "label": {
+        "en": "Detections",
+        "fr": "Détections",
+        "de": "Erkennungen",
+        "es": "Detecciones"
+      },
+      "description": {
+        "en": "The last detections, with the image taken at that moment.",
+        "fr": "Les dernières détections, avec l’image prise à ce moment-là.",
+        "de": "Die letzten Erkennungen, mit dem Bild aus diesem Moment.",
+        "es": "Las últimas detecciones, con la imagen tomada en ese momento."
+      },
+      "icon": "eye",
+      "settings": [
+        {
+          "key": "camera",
+          "type": "select",
+          "source": "devices",
+          "label": { "en": "Camera", "fr": "Caméra", "de": "Kamera", "es": "Cámara" },
+          "description": {
+            "en": "Empty: every camera.",
+            "fr": "Vide : toutes les caméras.",
+            "de": "Leer: alle Kameras.",
+            "es": "Vacío: todas las cámaras."
+          },
+          "required": false
+        },
+        {
+          "key": "count",
+          "type": "number",
+          "label": {
+            "en": "Detections shown",
+            "fr": "Détections affichées",
+            "de": "Angezeigte Erkennungen",
+            "es": "Detecciones mostradas"
+          },
+          "required": false,
+          "default": 5,
+          "min": 1,
+          "max": 8
+        }
+      ]
+    },
+    {
+      "key": "storage",
+      "label": {
+        "en": "Recording storage",
+        "fr": "Stockage d’enregistrement",
+        "de": "Aufnahmespeicher",
+        "es": "Almacenamiento de grabación"
+      },
+      "description": {
+        "en": "SD card or disks of a camera or a recorder: used, free, health.",
+        "fr": "Carte SD ou disques d’une caméra ou d’un enregistreur : utilisé, libre, santé.",
+        "de": "SD-Karte oder Festplatten einer Kamera oder eines Rekorders: belegt, frei, Zustand.",
+        "es": "Tarjeta SD o discos de una cámara o un grabador: usado, libre, estado."
+      },
+      "icon": "hard-drive",
+      "settings": [
+        {
+          "key": "camera",
+          "type": "select",
+          "source": "devices",
+          "label": { "en": "Camera", "fr": "Caméra", "de": "Kamera", "es": "Cámara" },
+          "description": {
+            "en": "For a recorder, any of its cameras.",
+            "fr": "Pour un enregistreur, n’importe laquelle de ses caméras.",
+            "de": "Bei einem Rekorder eine beliebige seiner Kameras.",
+            "es": "Para un grabador, cualquiera de sus cámaras."
+          },
+          "required": true
+        }
+      ]
+    }
+  ]
+}

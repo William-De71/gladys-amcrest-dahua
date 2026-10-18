@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="180" viewBox="0 0 320 180">
+  <!-- Drawn illustration of a night camera view (infrared, grey): a gate and a visitor. -->
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3f44"/><stop offset="1" stop-color="#5d6369"/></linearGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7b8187"/><stop offset="1" stop-color="#a7adb2"/></linearGradient>
+  </defs>
+  <rect width="320" height="180" fill="url(#sky)"/>
+  <rect y="104" width="320" height="76" fill="url(#ground)"/>
+  <rect x="0" y="62" width="320" height="10" fill="#4b5157"/>
+  <g fill="#2c3136">
+    <rect x="10" y="58" width="12" height="70"/><rect x="130" y="58" width="12" height="70"/>
+    <rect x="22" y="72" width="108" height="6"/><rect x="22" y="110" width="108" height="6"/>
+  </g>
+  <g stroke="#2c3136" stroke-width="4">
+    <line x1="40" y1="72" x2="40" y2="116"/><line x1="58" y1="72" x2="58" y2="116"/><line x1="76" y1="72" x2="76" y2="116"/>
+    <line x1="94" y1="72" x2="94" y2="116"/><line x1="112" y1="72" x2="112" y2="116"/><line x1="124" y1="72" x2="124" y2="116"/>
+  </g>
+  <g fill="#d9dde0">
+    <circle cx="172" cy="70" r="11"/>
+    <path d="M158 86 q14 -8 28 0 l6 44 h-10 l-3 34 h-7 l-2 -28 h-2 l-2 28 h-7 l-3 -34 h-10 z"/>
+  </g>
+  <rect x="146" y="54" width="54" height="116" fill="none" stroke="#f5c542" stroke-width="2"/>
+  <text x="8" y="16" font-family="monospace" font-size="11" fill="#ffffff">2026-10-18 19:58:12</text>
+  <text x="312" y="172" text-anchor="end" font-family="monospace" font-size="11" fill="#ffffff">GATE</text>
+</svg>

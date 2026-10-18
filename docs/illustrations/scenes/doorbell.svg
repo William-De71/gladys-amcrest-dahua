@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="180" viewBox="0 0 320 180">
+  <!-- Drawn illustration of a doorbell view (wide angle): a courier with a parcel. -->
+  <rect width="320" height="180" fill="#cfc6b8"/>
+  <rect y="132" width="320" height="48" fill="#8c8273"/>
+  <ellipse cx="160" cy="90" rx="190" ry="120" fill="none" stroke="#1d1d1d" stroke-opacity="0.35" stroke-width="40"/>
+  <g>
+    <circle cx="160" cy="58" r="20" fill="#e2b48c"/>
+    <path d="M140 42 q20 -22 40 0 v-4 h-40 z" fill="#2f5d8c"/>
+    <path d="M118 180 q4 -80 42 -82 q38 2 42 82 z" fill="#2f5d8c"/>
+    <rect x="132" y="112" width="56" height="40" fill="#c49a5c"/>
+    <rect x="132" y="128" width="56" height="5" fill="#a07a42"/>
+  </g>
+  <text x="10" y="18" font-family="monospace" font-size="11" fill="#ffffff">2026-10-18 11:03:27</text>
+  <text x="310" y="172" text-anchor="end" font-family="monospace" font-size="11" fill="#ffffff">FRONT DOOR</text>
+</svg>

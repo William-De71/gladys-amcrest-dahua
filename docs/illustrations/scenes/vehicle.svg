@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="180" viewBox="0 0 320 180">
+  <!-- Drawn illustration of a day camera view: a driveway and a car. -->
+  <rect width="320" height="180" fill="#9fc3e0"/>
+  <rect y="96" width="320" height="84" fill="#8a9a74"/>
+  <path d="M120 180 L170 96 H210 L300 180 Z" fill="#b9b4a8"/>
+  <rect x="10" y="40" width="96" height="62" fill="#e8dcc8"/><path d="M4 44 L58 12 L112 44 Z" fill="#9b5b48"/>
+  <rect x="44" y="66" width="26" height="36" fill="#6b4f3a"/>
+  <g>
+    <path d="M168 128 q6 -22 26 -24 h46 q16 2 26 22 l10 4 v22 h-118 v-20 z" fill="#c0392b"/>
+    <path d="M190 108 h44 l14 18 h-70 z" fill="#d6e6f2"/>
+    <circle cx="190" cy="154" r="11" fill="#222"/><circle cx="262" cy="154" r="11" fill="#222"/>
+    <circle cx="190" cy="154" r="5" fill="#999"/><circle cx="262" cy="154" r="5" fill="#999"/>
+  </g>
+  <rect x="160" y="98" width="130" height="70" fill="none" stroke="#f5c542" stroke-width="2"/>
+  <text x="8" y="174" font-family="monospace" font-size="11" fill="#ffffff">2026-10-18 17:12:40</text>
+  <text x="312" y="16" text-anchor="end" font-family="monospace" font-size="11" fill="#ffffff">DRIVE</text>
+</svg>

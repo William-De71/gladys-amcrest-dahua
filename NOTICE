@@ -1,0 +1,12 @@
+Gladys Amcrest / Dahua integration
+Copyright 2026 William Deren
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+The integration follows the public HTTP API of Dahua devices (CGI). The DHIP
+discovery frame and the list of doorbell model prefixes follow the measurements
+published by the rroller/dahua Home Assistant integration (MIT License,
+https://github.com/rroller/dahua). No code of python-amcrest is included.
+
+Amcrest, Dahua, Lorex and Imou are trademarks of their respective owners. This
+community integration is not affiliated with, endorsed or sponsored by them.

@@ -1,0 +1,49 @@
+name: Bug report
+description: Something does not work as described in the documentation.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a problem. Never paste the password of a camera, nor an RTSP address that contains it: check the logs before posting.
+  - type: input
+    id: gladys-version
+    attributes:
+      label: Gladys version
+      description: Settings → System.
+      placeholder: '5.2.1'
+    validations:
+      required: true
+  - type: input
+    id: integration-version
+    attributes:
+      label: Integration version
+      description: Integrations → Amcrest / Dahua (Supervision tab).
+      placeholder: '0.1.0'
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device model and firmware
+      description: Shown by "Test the connection" (model), and in the web interface of the camera (System info → Version).
+      placeholder: 'Amcrest IP4M-1041B, V2.800.00AC006.0.R'
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened, and what you expected
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: |
+        Logs of the integration (its Supervision tab), and the result of the "Test the connection" button. In developer mode, `DEBUG=gladys-integration-sdk` adds the SDK debug logs.
+      render: text
