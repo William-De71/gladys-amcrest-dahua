@@ -1,6 +1,6 @@
 {
   "name": "gladys-amcrest-dahua",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "External Gladys Assistant integration for Amcrest and Dahua cameras, doorbells and recorders over the local network: images, live view, instant detections, PTZ, scenes and widgets.",
   "homepage": "https://github.com/William-De71/gladys-amcrest-dahua",
