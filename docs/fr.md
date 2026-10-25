@@ -25,7 +25,7 @@ Les détections sont **instantanées** : l’intégration garde ouvert le flux d
 
 ## Prérequis
 
-- Gladys **5.1.0** ou plus récent (widgets de tableau de bord, déclencheurs et actions de scène).
+- Gladys **5.3.0** ou plus récent (mots-clés et pays du catalogue, widgets de tableau de bord, déclencheurs et actions de scène).
 - Une caméra, une sonnette ou un enregistreur sous firmware Dahua, joignable depuis Gladys, avec **HTTP** activé (c’est le cas par défaut) et **RTSP** activé pour la vidéo en direct.
 - Le compte que vous utilisez dans son interface web (`admin` dans la plupart des installations).
 - Pour la détection de personnes et de véhicules : une caméra avec **détection de mouvement intelligente (SMD)** ou des règles **IVS**, activées dans son interface web (Événement → Smart Motion Detection, ou Événement → IVS).

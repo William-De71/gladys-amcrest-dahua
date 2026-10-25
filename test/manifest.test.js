@@ -30,7 +30,7 @@ test('a device integration, in lockstep with package.json, at 0.x until 1.0.0 is
   assert.deepEqual(manifest.categories, ['security']);
 });
 
-test('local transport only, DHIP discovery the only permission, Gladys 5.1.0 for scenes and widgets', () => {
+test('local transport only, DHIP discovery the only permission, Gladys 5.3.0 for the catalog keywords', () => {
   assert.deepEqual(manifest.transports, ['local']);
   assert.doesNotMatch(source('../src/app.js'), /GLADYS_PREFER_LOCAL|publishTransports/);
   assert.deepEqual(manifest.network_discovery, [
@@ -41,7 +41,7 @@ test('local transport only, DHIP discovery the only permission, Gladys 5.1.0 for
   }
   // No widget button form (that would need 5.2.0).
   assert.doesNotMatch(source('../src/widgets.js'), /fields:/);
-  assert.equal(manifest.gladys_version, '>=5.1.0');
+  assert.equal(manifest.gladys_version, '>=5.3.0');
 });
 
 test('declares exactly the scene triggers, actions and widgets the code handles', () => {
@@ -164,4 +164,16 @@ test('no remote host in the code: everything stays on the local network', () => 
   ]) {
     assert.doesNotMatch(source(`../src/${file}`), /https?:\/\/[a-z]/i, file);
   }
+});
+
+test('catalog of Gladys 5.3.0: search keywords within the store bounds, countries', () => {
+  const { keywords } = manifest;
+  assert.ok(Array.isArray(keywords) && keywords.length >= 1 && keywords.length <= 10);
+  const normalized = keywords.map((keyword) => keyword.trim().toLowerCase());
+  for (const keyword of normalized) {
+    assert.ok(keyword.length >= 2 && keyword.length <= 30, keyword);
+  }
+  assert.equal(new Set(normalized).size, normalized.length, 'unique once trimmed and lowercased');
+  assert.ok(!normalized.includes(manifest.name.toLowerCase()), 'never the name itself');
+  assert.equal(manifest.countries, undefined, 'usable worldwide: no country list');
 });

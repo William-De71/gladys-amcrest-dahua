@@ -25,7 +25,7 @@ Detections are **instant**: the integration keeps the event stream of each devic
 
 ## Requirements
 
-- Gladys **5.1.0** or later (dashboard widgets and scene triggers and actions).
+- Gladys **5.3.0** or later (catalog keywords and countries, dashboard widgets and scene triggers and actions).
 - A camera, a doorbell or a recorder on Dahua firmware, reachable from Gladys, with **HTTP** enabled (it is by default) and **RTSP** enabled for the live view.
 - The account you use in its web interface (`admin` on most installations).
 - For person and vehicle detection: a camera with **smart motion detection (SMD)** or **IVS** rules, switched on in its web interface (Event → Smart Motion Detection, or Event → IVS).

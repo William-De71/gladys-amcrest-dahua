@@ -5,7 +5,7 @@
 [![Lizenz: Apache-2.0](https://img.shields.io/badge/Lizenz-Apache--2.0-blue.svg)](LICENSE)
 [![Neueste Version](https://img.shields.io/github/v/release/William-De71/gladys-amcrest-dahua?sort=semver)](https://github.com/William-De71/gladys-amcrest-dahua/releases)
 [![CI](https://img.shields.io/github/actions/workflow/status/William-De71/gladys-amcrest-dahua/release.yml?branch=main&label=CI)](https://github.com/William-De71/gladys-amcrest-dahua/actions/workflows/release.yml)
-[![Gladys](https://img.shields.io/badge/Gladys-%E2%89%A5%205.1.0-2f6fb5)](https://gladysassistant.com)
+[![Gladys](https://img.shields.io/badge/Gladys-%E2%89%A5%205.3.0-2f6fb5)](https://gladysassistant.com)
 
 ![Amcrest / Dahua für Gladys Assistant](cover.jpg)
 
@@ -95,7 +95,7 @@ Nicht umgesetzt: Sirene und Weißlicht der Kameras mit aktiver Abschreckung (meh
 
 ## Voraussetzungen
 
-- Gladys **5.1.0** oder neuer (ältere Versionen können die Integration nicht installieren: Widgets und Szenen).
+- Gladys **5.3.0** oder neuer (ältere Versionen können die Integration nicht installieren: Suchbegriffe und Länder des Katalogs, Widgets und Szenen).
 - Ein Gerät mit Dahua-Firmware mit aktiviertem HTTP, aktiviertem RTSP für die Live-Ansicht, und sein Konto.
 
 ## Installation

@@ -25,7 +25,7 @@ Erkennungen kommen **sofort**: Die Integration hält den Ereignisstrom jedes Ger
 
 ## Voraussetzungen
 
-- Gladys **5.1.0** oder neuer (Dashboard-Widgets, Szenenauslöser und -aktionen).
+- Gladys **5.3.0** oder neuer (Suchbegriffe und Länder des Katalogs, Dashboard-Widgets, Szenenauslöser und -aktionen).
 - Eine Kamera, eine Türklingel oder ein Rekorder mit Dahua-Firmware, von Gladys aus erreichbar, mit aktiviertem **HTTP** (Standard) und aktiviertem **RTSP** für die Live-Ansicht.
 - Das Konto, das Sie in der Weboberfläche verwenden (bei den meisten Installationen `admin`).
 - Für Personen- und Fahrzeugerkennung: eine Kamera mit **intelligenter Bewegungserkennung (SMD)** oder **IVS**-Regeln, aktiviert in ihrer Weboberfläche (Ereignis → Smart Motion Detection oder Ereignis → IVS).
